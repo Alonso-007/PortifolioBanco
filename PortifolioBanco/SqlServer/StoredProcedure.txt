@@ -1,0 +1,20 @@
+﻿CREATE OR ALTER PROC CalculateCategory (@pValue float, @pClienteSector varchar(60), @r varchar(100) out)
+AS
+  declare @VALUERISK float = 0
+  select @VALUERISK= l.valor from Parametros l WHERE l.chave = 'VALUERISK'
+  if @pValue < @VALUERISK and @pClienteSector = 'Public'
+  begin
+    set @r = 'LOWRISK'
+  end
+  else if @pValue > @VALUERISK and @pClienteSector = 'Public'
+  begin
+    set @r = 'MEDIUMRISK'
+  end
+  else if @pValue > @VALUERISK and @pClienteSector = 'Private'
+  begin
+    set @r = 'HIGHRISK'
+  end
+  else
+  begin
+    set @r = 'without parameter'
+  end

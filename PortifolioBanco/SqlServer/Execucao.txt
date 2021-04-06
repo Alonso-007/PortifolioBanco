@@ -1,0 +1,31 @@
+﻿select * from TradeCategory;
+select * from ClientSector;
+select * from Trade;
+select t.value, cs.descricao from Trade t 
+	inner join ClientSector cs
+	on t.cliente_sector_id = cs.id;
+select * from Parametros;
+
+declare @vRetorno varchar(60)
+exec CalculateCategory 2000000, 'Private', @vRetorno output
+print @vRetorno
+
+
+declare @valor float
+declare @descricao varchar(60)
+declare @vRetorno varchar(60)
+declare lista cursor for
+select t.value, cs.descricao from Trade t 
+	inner join ClientSector cs
+	on t.cliente_sector_id = cs.id
+open lista
+-- Lendo a próxima linha
+fetch next from lista into @valor, @descricao
+while @@FETCH_STATUS = 0
+begin
+exec CalculateCategory @valor, @descricao, @vRetorno output
+print @vRetorno
+fetch next from lista into @valor, @descricao
+end
+close lista
+deallocate lista

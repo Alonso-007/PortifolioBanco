@@ -1,0 +1,38 @@
+﻿CREATE TABLE TradeCategory(
+	id			int identity,
+	descricao	varchar(60) NOT NULL,
+	primary key (id)
+);
+
+insert into TradeCategory (descricao) values ('LOWRISK');
+insert into TradeCategory (descricao) values ('MEDIUMRISK');
+insert into TradeCategory (descricao) values ('HIGHRISK');
+
+CREATE TABLE ClientSector(
+	id			int identity,
+	descricao	varchar(60) NOT NULL,
+	primary key (id)
+);
+
+insert into ClientSector (descricao) values ('Private');
+insert into ClientSector (descricao) values ('Public');
+
+CREATE TABLE Trade(
+	id			int identity,
+	value		float,
+	cliente_sector_id int,
+	primary key (id),
+	foreign key (cliente_sector_id) references ClientSector
+);
+
+insert into Trade (value, cliente_sector_id) values ('2000000','1');
+insert into Trade (value, cliente_sector_id) values ('400000','2');
+insert into Trade (value, cliente_sector_id) values ('500000','2');
+insert into Trade (value, cliente_sector_id) values ('3000000','2');
+
+CREATE TABLE Parametros(
+	chave		varchar(30),
+	valor		varchar(300),
+	primary key (chave)
+);
+insert into Parametros (chave, valor) values ('VALUERISK','1000000.00');
